@@ -9,12 +9,10 @@ import boto3 as boto
 
 BUCKET_NAME = 'pjhudgins-iris'
 MODEL_FILE_NAME = 'iris.joblib'
-MODEL_LOCAL_PATH = MODEL_FILE_NAME #'/tmp/' + MODEL_FILE_NAME
+MODEL_LOCAL_PATH = 'tmp/' + MODEL_FILE_NAME
 
 
 def load_model():
-  #conn = S3Connection("AKIAIDEGUSVRDU7KN62Q", "nQXdEYs02PIql+Yym3ItSVf4x36rS8v8RJPJTdAH", host='us-east-2')
-  conn = S3Connection("AKIAIDEGUSVRDU7KN62Q", "nQXdEYs02PIql+Yym3ItSVf4x36rS8v8RJPJTdAH", host='s3.us-east-2.amazonaws.com')
   #conn = S3Connection(host='s3.us-east-2.amazonaws.com') #old working
   #conn = boto.connect_s3()
   #bucket = conn.create_bucket(BUCKET_NAME)
