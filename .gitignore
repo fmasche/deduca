@@ -2,6 +2,8 @@
 *.zip
 *.joblib
 *.pyc
+*.pkl
+
 *tmp/*
 
 
