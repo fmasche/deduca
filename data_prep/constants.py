@@ -126,3 +126,30 @@ def getColumnIndex(tableName, columnName):
         return TITLES_IDX[columnName]
     else:
         print("Wrong tableName: ", tableName, " - columnName: ", columnName)
+
+def getTableSize(tableName):
+    tableName = tableName.upper()
+    if (tableName == "APPOINTMENT"):
+        return 6
+    if (tableName == "BILLING"):
+        return 4
+    if (tableName == "DEPARTMENTS"):
+        return 1
+    if (tableName == "DEPT_EMP"):
+        return 3
+    if (tableName == "EMPLOYEES"):
+        return 5
+    if (tableName == "MEDICATION"):
+        return 3
+    if (tableName == "PATIENT"):
+        return 8
+    if (tableName == "PRESCRIBES"):
+        return 6
+    if (tableName == "PROCEDURES"):
+        return 2
+    if (tableName == "SALARIES"):
+        return 3
+    if (tableName == "TITLES"):
+        return 3
+    else:
+        print("Wrong tableName: ", tableName)    

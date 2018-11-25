@@ -4,7 +4,7 @@ from os import listdir, path
 import constants
 
 TEST_QUERY = "select employees.first_name, employees.last_name, employees.gender, employees.birth_date, employees.hire_date, salaries.salary from employees inner join salaries on employees.emp_no = salaries.emp_no where employees.emp_no = @param;"
-TEST_QUERY_ALL = "select * from employees;"
+TEST_QUERY_ALL = "select * from salaries where salary > @param;"
 
 def getFeaturesFromQuery(query):
     command = ""                # The command being executed (SELECT, UPDATE, INSERT, DELETE)
@@ -17,8 +17,8 @@ def getFeaturesFromQuery(query):
     if (command.upper() == "SELECT"):
         tablesAndColumns = getTablesAndColumns(query)
         tablesAndAttributes = getTablesAndAttributes(query)
-        print(tablesAndColumns)
-        print(tablesAndAttributes)
+        print('Tables and columns: ', tablesAndColumns)
+        print('Attributes WHERE clause:', tablesAndAttributes)
 
     return command, tablesAndColumns, tablesAndAttributes
 
@@ -46,15 +46,15 @@ def getTablesAndColumns(query):
         for token in tokens:
             if (token.lower() in ["from"]): # if we get to the FROM statement we can stop looping the tokens
                 break
-            if token.startswith(table):
+            if (token.startswith(table) or token == "*"):
                 if token != table:
                     fields.append(token.replace(",", ""))
         if len(list(set(fields))) >= 1:
             dictTables[table] = list(set(fields))
+    
     return dictTables
 
 def getTablesAndAttributes(query):
-
     # split on blanks, parens and semicolons
     tokens = re.split(r"[\s)(;]+", query)
 
@@ -75,11 +75,11 @@ def getTablesAndAttributes(query):
     if 'where' in tokens:
         query =  query.split(' where ', 1)[1]
         tokens = re.split(r"[\s)(;]+", query)
-        
+
         for table in tables:
             fields = []
             for token in tokens:
-                if token.startswith(table):
+                if (token.startswith(table) or len(tables) == 1):    # if the attribute corresponds to the table or if there is only one table
                     if token != table:
                         fields.append(token)
             if len(list(set(fields))) >= 1:
@@ -99,30 +99,38 @@ def getFeaturesFromCommand(command):
 
 def getFeaturesFromTables(tablesDic):
     tables = [0] * 10
-    #print('Inside getFeaturesFromTables: ')
     for x, y in tablesDic.items():
         table = x
         #print(table)
         index = constants.TABLES_INDEX[table]
         #print(index)
-        tables.insert(index, 1)
+        tables[index] = 1
 
     return np.array(tables)
 
 def getFeaturesFromColumns(tablesDic):
-    columns = np.zeros((11, 8))   ## 11 tables, 8 maximum amount of columns
-    #print('Inside getFeaturesFromColumns: ')
+    columns = np.zeros((11, 9))   ## 11 tables, 9 maximum amount of columns
     for x, y in tablesDic.items():
         table = x
         tableIdx = constants.TABLES_INDEX[table]
-
-        for items in y:
-            columnName = items.split(".", 1)[1]
-            #print("table: ", table, " - columnName: ", columnName)
-            columnNameIdx = constants.getColumnIndex(table, columnName)
-            #print("tableIdx: ", tableIdx, " - columnNameIdx: ", columnNameIdx)
-            columns[tableIdx][columnNameIdx] = 1
-
+        try:
+            if ("*" in y):      # get all the columns of the table
+                size = constants.getTableSize(table)
+                for idx in range(size):
+                    columns[tableIdx][idx] = 1
+            else:
+                for items in y:
+                    columnName = items
+                    if ("." in columnName):
+                        columnName = items.split(".", 1)[1]
+                    #print("table: ", table, " - columnName: ", columnName)
+                    columnNameIdx = constants.getColumnIndex(table, columnName)
+                    #print("tableIdx: ", tableIdx, " - columnNameIdx: ", columnNameIdx)
+                    columns[tableIdx][columnNameIdx] = 1
+        except Exception as error:
+            # only the tokens from the WHERE filter condition are going to come here, and it doesn't really matter,
+            # we don't need them (like, @param, >, <) The attribute being conditioned should not get here.
+            print('Exception error: ', error, ' - table: ', table, ' - attributes: ', y)
     #print(columns)
     return columns
 
@@ -141,15 +149,20 @@ def getFeaturesCombined(query):
     arrayColumns = arrayColumns.flatten()
     arrayAttributes = arrayAttributes.flatten()
     
-    #print(arrayCommand)
-    #print(arrayTables)
+    # print('Printing arrayCommand: ')
+    # print(arrayCommand)
+    # print('Printing arrayTables: ')
+    # print(arrayTables)
+    # print('Printing arrayColumns: ')
+    # print(arrayColumns)
+    # print('Printing arrayAttributes: ')
+    # print(arrayAttributes)
     return np.concatenate([arrayCommand, arrayTables, arrayColumns, arrayAttributes])
 
 
 if __name__ == "__main__":
     print('Holi')
-    #command, tablesAndColumns, tablesAndAttributes = getFeaturesFromQuery(TEST_QUERY)
-    features = getFeaturesCombined(TEST_QUERY)
+    features = getFeaturesCombined(TEST_QUERY_ALL)
     print('FINAL FEATURES: ')
     print(features)
     #result = getTablesAndColumns(TEST_QUERY)

@@ -3,7 +3,7 @@ import numpy as np
 import pandas
 import preprocessing
 
-DEFAULT_FILENAME = "files/training_data_1.xlsx"
+DEFAULT_FILENAME = "files/training_data_2.xlsx"
 
 def load_data(filename):
     xArr = []
@@ -17,12 +17,13 @@ def load_data(filename):
             continue
         try:
             features = preprocessing.getFeaturesCombined(query)
+            #print(features)
             xArr.append(features)
             yArr.append(role)
         except Exception as error:
+            print(error)
             excepCount = excepCount + 1
             
-
     xs = np.array(xArr)
     ys = np.array(yArr)
     print("xs shape: ", xs.shape)     
