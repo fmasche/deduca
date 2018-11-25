@@ -5,6 +5,13 @@ import constants
 
 TEST_QUERY = "select employees.first_name, employees.last_name, employees.gender, employees.birth_date, employees.hire_date, salaries.salary from employees inner join salaries on employees.emp_no = salaries.emp_no where employees.emp_no = @param;"
 TEST_QUERY_ALL = "select * from salaries where salary > @param;"
+TEST_DATA = {
+    "role" : "HR",
+    "user": "bob",
+    "rows_examined": 4,
+    "timestamp": "11-24-18 19:44:57",
+    "text": TEST_QUERY
+}
 
 def getFeaturesFromQuery(query):
     command = ""                # The command being executed (SELECT, UPDATE, INSERT, DELETE)
@@ -135,7 +142,12 @@ def getFeaturesFromColumns(tablesDic):
     return columns
 
 
-def getFeaturesCombined(query):
+# data expected to be a dictionary with the format:
+# {'role': 'HR', 'user': 'bob', 'rows_examined': 4, 'timestamp': '11-24-18 19:44:57', 'text': 'select * from patient'}
+def getFeaturesCombined(data):
+    query = data.get("text")
+    rows_examined = data.get("rows_examined")
+
     command, tablesAndColumns, tablesAndAttributes = getFeaturesFromQuery(query)
 
     if (command in ["insert", "update", "delete"]): # TODO for now I'm ignoring everything that is not select
@@ -157,12 +169,12 @@ def getFeaturesCombined(query):
     # print(arrayColumns)
     # print('Printing arrayAttributes: ')
     # print(arrayAttributes)
-    return np.concatenate([arrayCommand, arrayTables, arrayColumns, arrayAttributes])
+    return np.concatenate([arrayCommand, arrayTables, arrayColumns, arrayAttributes, np.array([rows_examined])])
 
 
 if __name__ == "__main__":
     print('Holi')
-    features = getFeaturesCombined(TEST_QUERY_ALL)
+    features = getFeaturesCombined(TEST_DATA)
     print('FINAL FEATURES: ')
     print(features)
     #result = getTablesAndColumns(TEST_QUERY)
