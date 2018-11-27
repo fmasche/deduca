@@ -9,20 +9,23 @@ def load_data(filename):
     xArr = []
     yArr = []
     excepCount = 0
-    df = pandas.read_excel(open(filename,'rb'), sheet_name=0)
+    data = dict()   
+    df = pandas.read_excel(open(filename,'rb'), sheet_name=0)    
     for i in df.index:
-        query = df['query'][i]
+        data["text"] = df['query'][i]
+        data["rows_examined"] = df['rows'][i]
         role = df['role2'][i]
-        if (query == "query"):  # only to ignore the first line, TODO should change this
+        if (data["text"] == "query"):  # only to ignore the first line, TODO should change this
             continue
         try:
-            features = preprocessing.getFeaturesCombined(query)
+            features = preprocessing.getFeaturesCombined(data)
+            #print(features)
             xArr.append(features)
             yArr.append(role)
         except Exception as error:
+            print(error)
             excepCount = excepCount + 1
             
-
     xs = np.array(xArr)
     ys = np.array(yArr)
     print("xs shape: ", xs.shape)     
