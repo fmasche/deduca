@@ -3,7 +3,7 @@ import numpy as np
 import pandas
 import preprocessing
 
-DEFAULT_FILENAME = "files/training_data_1.xlsx"
+DEFAULT_FILENAME = "files/training_data_2.xlsx"
 
 def load_data(filename):
     xArr = []
@@ -20,7 +20,7 @@ def load_data(filename):
         try:
             features = preprocessing.getFeaturesFromQuery(data)
             #print(features)
-            xArr.append(features)
+            xArr.append(features[0])
             yArr.append(role)
         except Exception as error:
             print(error)

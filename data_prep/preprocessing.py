@@ -176,7 +176,7 @@ def getFeaturesFromQuery(data):
 
 if __name__ == "__main__":
     print('Holi')
-    features = getFeaturesCombined(TEST_DATA)
+    features = getFeaturesFromQuery(TEST_DATA)
     print('FINAL FEATURES: ')
     print(features)
     #result = getTablesAndColumns(TEST_QUERY)
