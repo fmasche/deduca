@@ -18,7 +18,7 @@ def load_data(filename):
         if (data["text"] == "query"):  # only to ignore the first line, TODO should change this
             continue
         try:
-            features = preprocessing.getFeaturesCombined(data)
+            features = preprocessing.getFeaturesFromQuery(data)
             #print(features)
             xArr.append(features)
             yArr.append(role)
