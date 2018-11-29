@@ -6,7 +6,6 @@ import loaders
 from loaders import load_data
 from loaders import DEFAULT_FILENAME
 import preprocessing
-#from data_prep.preprocessing import getFeaturesCombined
 
 import pickle
 

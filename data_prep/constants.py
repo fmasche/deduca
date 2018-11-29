@@ -130,26 +130,26 @@ def getColumnIndex(tableName, columnName):
 def getTableSize(tableName):
     tableName = tableName.upper()
     if (tableName == "APPOINTMENT"):
-        return 6
+        return 7
     if (tableName == "BILLING"):
-        return 4
-    if (tableName == "DEPARTMENTS"):
-        return 1
-    if (tableName == "DEPT_EMP"):
-        return 3
-    if (tableName == "EMPLOYEES"):
         return 5
-    if (tableName == "MEDICATION"):
-        return 3
-    if (tableName == "PATIENT"):
-        return 8
-    if (tableName == "PRESCRIBES"):
-        return 6
-    if (tableName == "PROCEDURES"):
+    if (tableName == "DEPARTMENTS"):
         return 2
+    if (tableName == "DEPT_EMP"):
+        return 4
+    if (tableName == "EMPLOYEES"):
+        return 6
+    if (tableName == "MEDICATION"):
+        return 4
+    if (tableName == "PATIENT"):
+        return 9
+    if (tableName == "PRESCRIBES"):
+        return 7
+    if (tableName == "PROCEDURES"):
+        return 3
     if (tableName == "SALARIES"):
-        return 3
+        return 4
     if (tableName == "TITLES"):
-        return 3
+        return 4
     else:
-        print("Wrong tableName: ", tableName)    
+        print("Wrong tableName: ", tableName)

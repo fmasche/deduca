@@ -3,7 +3,7 @@ import numpy as np
 import pandas
 import preprocessing
 
-DEFAULT_FILENAME = "files/training_data_2.xlsx"
+DEFAULT_FILENAME = "files/training_data_1.xlsx"
 
 def load_data(filename):
     xArr = []
