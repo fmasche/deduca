@@ -13,7 +13,7 @@ TEST_DATA = {
     "text": TEST_QUERY
 }
 
-def getFeaturesFromQuery(query):
+def getQueryParts(query):
     command = ""                # The command being executed (SELECT, UPDATE, INSERT, DELETE)
     tablesAndColumns = set()    # The tables mentioned in the FROM clause with the columns returned from each table
     tablesAndAttributes = set() # The attributes referenced in the WHERE clause
@@ -144,11 +144,11 @@ def getFeaturesFromColumns(tablesDic):
 
 # data expected to be a dictionary with the format:
 # {'role': 'HR', 'user': 'bob', 'rows_examined': 4, 'timestamp': '11-24-18 19:44:57', 'text': 'select * from patient'}
-def getFeaturesCombined(data):
+def getFeaturesFromQuery(data):
     query = data.get("text")
     rows_examined = data.get("rows_examined")
 
-    command, tablesAndColumns, tablesAndAttributes = getFeaturesFromQuery(query)
+    command, tablesAndColumns, tablesAndAttributes = getQueryParts(query)
 
     if (command in ["insert", "update", "delete"]): # TODO for now I'm ignoring everything that is not select
         raise Exception('Commands not implemented!')
@@ -161,6 +161,8 @@ def getFeaturesCombined(data):
     arrayColumns = arrayColumns.flatten()
     arrayAttributes = arrayAttributes.flatten()
     
+    retval = np.concatenate([arrayCommand, arrayTables, arrayColumns, arrayAttributes, np.array([rows_examined])])
+    retval = retval.reshape(1, -1)  #only one sample here
     # print('Printing arrayCommand: ')
     # print(arrayCommand)
     # print('Printing arrayTables: ')
@@ -169,7 +171,7 @@ def getFeaturesCombined(data):
     # print(arrayColumns)
     # print('Printing arrayAttributes: ')
     # print(arrayAttributes)
-    return np.concatenate([arrayCommand, arrayTables, arrayColumns, arrayAttributes, np.array([rows_examined])])
+    return retval 
 
 
 if __name__ == "__main__":
