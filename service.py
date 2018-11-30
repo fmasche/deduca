@@ -4,9 +4,10 @@ from sklearn.externals import joblib
 import boto3
 import io
 import pickle
+import data_prep.preprocessing
 
 BUCKET_NAME = 'pjhudgins-iris'
-MODEL_KEY = 'query_model.pkl'
+MODEL_KEY = 'model.pkl'
 REPORT_KEY = 'report.txt'
 
 def main():
@@ -16,24 +17,30 @@ def main():
     report_lines = []
     for query in queries:
         features = get_features_from_query(query)
-        predicted_role = model.predict([features])
+        
+        predicted_role = model.predict(features)
+        predicted_role = str(predicted_role[0])
+        print predicted_role, query['text']
+
         
         report_line = generate_report_line(query, predicted_role)
         if report_line:
             report_lines.append(report_line)
     
     report_text = '\n'.join(report_lines)
+    print "Report:\n", report_text
     upload_report(report_text)
 
 def get_queries():
     """Stub, this will use Nikki's code"""
-    return [{'role': 'HR', 'user': 'bob', 'rows_examined': 4, 'timestamp': '11-24-18 19:44:57', 'text': 'select * from patient'},
-            {'role': 'DOC', 'user': 'alice', 'rows_examined': 2, 'timestamp': '11-24-18 19:45:00', 'text': 'select * from billing'}
+    return [{'role': 'DOC', 'user': 'bob', 'rows_examined': 4, 'timestamp': '11-24-18 19:44:57', 'text': 'select * from patient'},
+            {'role': 'HR', 'user': 'alice', 'rows_examined': 2, 'timestamp': '11-24-18 19:45:00', 'text': 'select * from billing'}
             ]
     
 def get_features_from_query(query):
     """Stub, this will use Fatima's preprocessing code"""
-    return [0.0] * 4
+    return data_prep.preprocessing.getFeaturesFromQuery(query)
+    #return [0.0] * 4
 
 def generate_report_line(query, predicted_role):
     #I'll make this more meaningful later - Paul
