@@ -21,8 +21,8 @@ def load_data(filename):
         if (data["text"] == "query"):  # only to ignore the first line, TODO should change this
             continue
         try:
-            features = preprocessing.getFeaturesFromDBSAFE(data)
-            #features = preprocessing.getFeaturesFromQuery(data)
+            #features = preprocessing.getFeaturesFromDBSAFE(data)
+            features = preprocessing.getFeaturesFromQuery(data)
             #print(features)
             xArr.append(features[0])
             yArr.append(role)
@@ -38,8 +38,8 @@ def load_data(filename):
         if (data["text"] == "query"):  # only to ignore the first line, TODO should change this
             continue
         try:
-            features = preprocessing.getFeaturesFromDBSAFE(data)
-            #features = preprocessing.getFeaturesFromQuery(data)
+            #features = preprocessing.getFeaturesFromDBSAFE(data)
+            features = preprocessing.getFeaturesFromQuery(data)
             #print(features)
             xTestArr.append(features[0])
             yTestArr.append(role)

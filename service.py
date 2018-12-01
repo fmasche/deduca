@@ -5,6 +5,7 @@ import boto3
 import io
 import pickle
 import data_prep.preprocessing
+import query_log
 
 BUCKET_NAME = 'pjhudgins-iris'
 MODEL_KEY = 'model.pkl'
@@ -16,11 +17,14 @@ def main():
     
     report_lines = []
     for query in queries:
-        features = get_features_from_query(query)
+        try:
+            features = get_features_from_query(query)
+        except:
+            continue
         
         predicted_role = model.predict(features)
         predicted_role = str(predicted_role[0])
-        print predicted_role, query['text']
+        #print predicted_role, query['text']
 
         
         report_line = generate_report_line(query, predicted_role)
@@ -33,9 +37,12 @@ def main():
 
 def get_queries():
     """Stub, this will use Nikki's code"""
-    return [{'role': 'DOC', 'user': 'bob', 'rows_examined': 4, 'timestamp': '11-24-18 19:44:57', 'text': 'select * from patient'},
-            {'role': 'HR', 'user': 'alice', 'rows_examined': 2, 'timestamp': '11-24-18 19:45:00', 'text': 'select * from billing'}
-            ]
+    queries = query_log.get_queries()
+    print queries[0]
+    return queries
+    # return [{'role': 'DOC', 'user': 'bob', 'rows_examined': 4, 'timestamp': '11-24-18 19:44:57', 'text': 'select * from patient'},
+    #         {'role': 'HR', 'user': 'alice', 'rows_examined': 2, 'timestamp': '11-24-18 19:45:00', 'text': 'select * from billing'}
+    #         ]
     
 def get_features_from_query(query):
     """Stub, this will use Fatima's preprocessing code"""
@@ -43,13 +50,22 @@ def get_features_from_query(query):
     #return [0.0] * 4
 
 def generate_report_line(query, predicted_role):
-    #I'll make this more meaningful later - Paul
+    report = query['timestamp'] + '/' + query['role'] + '/' + predicted_role
     if predicted_role == 'PENT':
-        return query['timestamp'] + " Query appears malicious: " + query['text']
+        report += " WARNING: Appears malicious: "
     elif query['role'] != predicted_role:
-        return query['timestamp'] + " Unexpected role: " + query['text']
+        report += " WARNING: Unexpected role: "
     else:
-        return None
+        report += " Nominal query:"
+    report += query['text'][:100]
+    return report
+    
+    # if predicted_role == 'PENT':
+    #     return query['timestamp'] + " Query appears malicious: " + query['text']
+    # elif query['role'] != predicted_role:
+    #     return query['timestamp'] + " Unexpected role: " + query['text']
+    # else:
+    #     return None
 
 def load_model():
     s3 = boto3.resource('s3')

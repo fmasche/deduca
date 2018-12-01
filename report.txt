@@ -1,0 +1,66 @@
+12-01-18 21:35:44/admin/PENT WARNING: Appears malicious: select @@version_comment limit 1
+12-01-18 21:38:09/admin/PENT WARNING: Appears malicious: select @@version_comment limit 1
+12-01-18 21:40:16/admin/PENT WARNING: Appears malicious: select user from mysql.user
+12-01-18 21:41:03/admin/PENT WARNING: Appears malicious: select user from mysql.user
+12-01-18 21:49:31/admin/PENT WARNING: Appears malicious: select @@version_comment limit 1
+12-01-18 21:49:37/admin/PENT WARNING: Appears malicious: select user from mysql.user
+12-01-18 21:52:02/admin/DOC WARNING: Unexpected role: select count(*) from patient
+12-01-18 21:52:12/admin/DOC WARNING: Unexpected role: select count(*) from patient
+12-01-18 21:52:52/admin/DOC WARNING: Unexpected role: select count(*) from procedures
+12-01-18 21:52:58/admin/DOC WARNING: Unexpected role: select count(*) from medication
+12-01-18 21:53:07/admin/PENT WARNING: Appears malicious: select count(*) from appointment
+12-01-18 21:53:12/admin/PENT WARNING: Appears malicious: select count(*) from prescribes
+12-01-18 21:53:16/admin/PENT WARNING: Appears malicious: select count(*) from billing
+12-01-18 21:54:25/admin/HR WARNING: Unexpected role: select count(*) from departments
+12-01-18 21:54:33/admin/PENT WARNING: Appears malicious: select count(*) from dept_emp
+12-01-18 21:54:39/admin/PENT WARNING: Appears malicious: select count(*) from employees
+12-01-18 21:58:26/admin/PENT WARNING: Appears malicious: select @@version_comment limit 1
+12-01-18 22:00:38/admin/PENT WARNING: Appears malicious: select count(*) from salaries
+12-01-18 22:00:50/admin/PENT WARNING: Appears malicious: select count(*) from titles
+12-01-18 22:19:54/admin/ADM WARNING: Unexpected role: insert into billing values ()
+12-01-18 22:19:57/admin/ADM WARNING: Unexpected role: insert into billing values ()
+12-01-18 22:22:30/admin/PENT WARNING: Appears malicious: select * from billing
+12-01-18 22:22:44/admin/PENT WARNING: Appears malicious: select * from billing
+12-01-18 22:27:15/admin/PENT WARNING: Appears malicious: select * from appointment
+12-01-18 22:29:06/admin/PENT WARNING: Appears malicious: select * from employees
+12-01-18 22:30:28/admin/DOC WARNING: Unexpected role: select * from procedures
+12-01-18 22:32:42/ADM/PENT WARNING: Appears malicious: select @@version_comment limit 1
+12-01-18 22:32:46/ADM/HR WARNING: Unexpected role: select employees.emp_no from employees where employees.last_name like 'Preusig'
+12-01-18 22:33:02/ADM/PENT WARNING: Appears malicious: select employees.emp_no from employees where employees.last_name like 'Preusig'
+12-01-18 22:34:11/ADM/ADM Nominal query:select billing.billing_no, billing.payment_method, billing.amount, billing.cc_number, patient.patien
+12-01-18 22:34:43/ADM/DOC WARNING: Unexpected role: select appointment.appointment_id, appointment.patient_no, patient.first_name, patient.last_name, pa
+12-01-18 22:35:39/ADM/ADM Nominal query:select billing.billing_no, billing.payment_method, billing.amount, billing.cc_number, patient.patien
+12-01-18 22:35:52/ADM/PENT WARNING: Appears malicious: select employees.emp_no from employees where employees.first_name like 'Georgi'
+12-01-18 22:36:09/ADM/DOC WARNING: Unexpected role: select procedures.proc_code, procedures.description, procedures.cost from procedures where procedure
+12-01-18 22:38:37/ADM/PENT WARNING: Appears malicious: select employees.emp_no from employees where employees.last_name like 'Preusig'
+12-01-18 22:38:37/ADM/ADM Nominal query:select billing.billing_no, billing.payment_method, billing.amount, billing.cc_number, patient.patien
+12-01-18 22:38:37/ADM/DOC WARNING: Unexpected role: select appointment.appointment_id, appointment.patient_no, patient.first_name, patient.last_name, pa
+12-01-18 22:38:37/ADM/ADM Nominal query:select billing.billing_no, billing.payment_method, billing.amount, billing.cc_number, patient.patien
+12-01-18 22:38:37/ADM/PENT WARNING: Appears malicious: select employees.emp_no from employees where employees.first_name like 'Georgi'
+12-01-18 22:38:37/ADM/DOC WARNING: Unexpected role: select procedures.proc_code, procedures.description, procedures.cost from procedures where procedure
+12-01-18 22:39:17/admin/PENT WARNING: Appears malicious: select * from salaries
+12-01-18 22:42:00/ADM/PENT WARNING: Appears malicious: select employees.emp_no from employees where employees.last_name like 'Preusig'
+12-01-18 22:42:00/ADM/ADM Nominal query:select billing.billing_no, billing.payment_method, billing.amount, billing.cc_number, patient.patien
+12-01-18 22:42:00/ADM/DOC WARNING: Unexpected role: select appointment.appointment_id, appointment.patient_no, patient.first_name, patient.last_name, pa
+12-01-18 22:42:00/ADM/ADM Nominal query:select billing.billing_no, billing.payment_method, billing.amount, billing.cc_number, patient.patien
+12-01-18 22:42:00/ADM/PENT WARNING: Appears malicious: select employees.emp_no from employees where employees.first_name like 'Georgi'
+12-01-18 22:42:00/ADM/DOC WARNING: Unexpected role: select procedures.proc_code, procedures.description, procedures.cost from procedures where procedure
+12-01-18 22:42:00/ADM/PENT WARNING: Appears malicious: select * from billing
+12-01-18 22:42:00/ADM/PENT WARNING: Appears malicious: select * from appointment
+12-01-18 22:42:00/ADM/PENT WARNING: Appears malicious: delete from billing
+12-01-18 22:42:00/ADM/PENT WARNING: Appears malicious: select * from billing
+12-01-18 22:42:00/ADM/PENT WARNING: Appears malicious: select * from appointment
+12-01-18 22:42:00/ADM/PENT WARNING: Appears malicious: select * from billing
+12-01-18 23:02:37/DOC/DOC Nominal query:select patient.patient_no, patient.first_name, patient.last_name, patient.birth_date, prescribes.pre
+12-01-18 23:02:37/DOC/DOC Nominal query:select procedures.proc_code, procedures.description, procedures.cost from procedures where procedure
+12-01-18 23:02:37/DOC/ADM WARNING: Unexpected role: select appointment.appointment_id, appointment.patient_no, patient.first_name, patient.last_name, pa
+12-01-18 23:06:34/ADM/PENT WARNING: Appears malicious: select * from patient
+12-01-18 23:10:44/DOC/DOC Nominal query:select patient.patient_no, patient.first_name, patient.last_name, patient.birth_date, prescribes.pre
+12-01-18 23:10:44/DOC/DOC Nominal query:select procedures.proc_code, procedures.description, procedures.cost from procedures where procedure
+12-01-18 23:10:44/DOC/DOC Nominal query:select appointment.appointment_id, appointment.patient_no, patient.first_name, patient.last_name, pa
+12-01-18 23:10:44/DOC/DOC Nominal query:select procedures.proc_code, procedures.description, procedures.cost from procedures where procedure
+12-01-18 23:10:44/DOC/PENT WARNING: Appears malicious: select * from prescribes
+12-01-18 23:10:44/DOC/PENT WARNING: Appears malicious: select * from medication
+12-01-18 23:10:44/DOC/PENT WARNING: Appears malicious: select * from appointment
+12-01-18 23:10:44/DOC/PENT WARNING: Appears malicious: select * from patient
+12-01-18 23:10:44/DOC/PENT WARNING: Appears malicious: select first_name, last_name, ssn, phone, address, birth_date from patient

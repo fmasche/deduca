@@ -2,7 +2,7 @@ import sys
 import pymysql
 import datetime
 
-INTERVAL = '36 hour'
+INTERVAL = '5 hour'
 
 def load_pw():
     x = "3219ahn7fg53esartnoC$"

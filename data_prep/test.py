@@ -121,6 +121,6 @@ def learn_bag_of_words(filename):
 
 if __name__ == "__main__":
     print('Holi')
-    #learn(DEFAULT_FILENAME)
-    learn_bag_of_words(DEFAULT_FILENAME)
+    learn(DEFAULT_FILENAME)
+    #learn_bag_of_words(DEFAULT_FILENAME)
     #print(result)
