@@ -4,6 +4,9 @@
 *.pyc
 *.pkl
 
-*tmp/*
+*tmp*
+*lock*
+*source*
+*package*
 
 
