@@ -10,7 +10,7 @@ def load_data(filename):
     yArr = []
     xTestArr = []
     yTestArr = []
-
+    
     excepCount = 0
     data = dict()   
     df = pandas.read_excel(open(filename,'rb'), sheet_name=0)   # training
@@ -22,6 +22,7 @@ def load_data(filename):
             continue
         try:
             features = preprocessing.getFeaturesFromDBSAFE(data)
+            #features = preprocessing.getFeaturesFromQuery(data)
             #print(features)
             xArr.append(features[0])
             yArr.append(role)
@@ -38,6 +39,7 @@ def load_data(filename):
             continue
         try:
             features = preprocessing.getFeaturesFromDBSAFE(data)
+            #features = preprocessing.getFeaturesFromQuery(data)
             #print(features)
             xTestArr.append(features[0])
             yTestArr.append(role)
@@ -61,7 +63,7 @@ def load_training_test_data(filename):
             continue
         try:
             xTraining.append([df['query'][i], df['rows'][i]])
-            yTraining.append(df['role'][i])
+            yTraining.append(df['role2'][i])
 
             bow.append(df['query'][i])
         except Exception as error:
