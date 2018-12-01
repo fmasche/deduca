@@ -10,18 +10,19 @@ def load_data(filename):
     yArr = []
     xTestArr = []
     yTestArr = []
-
+    
     excepCount = 0
     data = dict()   
     df = pandas.read_excel(open(filename,'rb'), sheet_name=0)   # training
     for i in df.index:
         data["text"] = df['query'][i]
         data["rows_examined"] = df['rows'][i]
-        role = df['role'][i]
+        role = df['role2'][i]
         if (data["text"] == "query"):  # only to ignore the first line, TODO should change this
             continue
         try:
             features = preprocessing.getFeaturesFromDBSAFE(data)
+            #features = preprocessing.getFeaturesFromQuery(data)
             #print(features)
             xArr.append(features[0])
             yArr.append(role)
@@ -33,11 +34,12 @@ def load_data(filename):
     for i in df.index:
         data["text"] = df['query'][i]
         data["rows_examined"] = df['rows'][i]
-        role = df['role'][i]
+        role = df['role2'][i]
         if (data["text"] == "query"):  # only to ignore the first line, TODO should change this
             continue
         try:
             features = preprocessing.getFeaturesFromDBSAFE(data)
+            #features = preprocessing.getFeaturesFromQuery(data)
             #print(features)
             xTestArr.append(features[0])
             yTestArr.append(role)
@@ -61,7 +63,7 @@ def load_training_test_data(filename):
             continue
         try:
             xTraining.append([df['query'][i], df['rows'][i]])
-            yTraining.append(df['role'][i])
+            yTraining.append(df['role2'][i])
 
             bow.append(df['query'][i])
         except Exception as error:
@@ -74,7 +76,7 @@ def load_training_test_data(filename):
             continue
         try:
             xTest.append([df['query'][i], df['rows'][i]])
-            yTest.append(df['role'][i])
+            yTest.append(df['role2'][i])
         except Exception as error:
             print(error)
             pass            
