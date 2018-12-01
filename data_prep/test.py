@@ -21,7 +21,7 @@ def learn(filename):
     with open('model.pkl', 'wb') as model_file:
         pickle.dump(classifier, model_file)
 
-    features = preprocessing.getFeaturesFromDBSAFE(preprocessing.TEST_DATA)
+    features = preprocessing.getFeaturesFromQuery(preprocessing.TEST_DATA)
 
     pred = classifier.predict(features)
     print('Prediction: ', pred[0])
