@@ -3,9 +3,12 @@ from data_prep.preprocessing import getFeaturesFromQuery
 from data_prep.loaders import load_data
 from data_prep.loaders import DEFAULT_FILENAME
 import pandas
+import sklearn.naive_bayes
+import sklearn.ensemble
 from sklearn import svm
 from sklearn.ensemble import RandomForestClassifier
 import random
+
 
 def load_queries(filename):
     queries = []
@@ -31,10 +34,10 @@ def predicted_valid(query, predicted_role):
     else:
         return 'Y'
 
-def score(train_queries, test_queries):
+def score(train_queries, test_queries, classifier_constructor):
     train_xs = [getFeaturesFromQuery(query)[0] for query in train_queries]
     train_ys = [query['role2'] for query in train_queries]
-    classifier = RandomForestClassifier()
+    classifier = classifier_constructor()
     classifier.fit(train_xs, train_ys)
 
     test_xs = [getFeaturesFromQuery(query)[0] for query in test_queries]
@@ -58,7 +61,7 @@ def score(train_queries, test_queries):
     return tp, tn, fp, fn
 
 
-def xval(queries):
+def xval(queries, classifier_constructor):
     num_splits = 5
     random.shuffle(queries)
     size = len(queries) / 5
@@ -66,7 +69,7 @@ def xval(queries):
     for i in range(num_splits):
         test_queries = queries[size*i:size*(i+1)]
         train_queries = queries[:size*i] + queries[size*(i+1):]
-        tp_split, tn_split, fp_split, fn_split = score(train_queries, test_queries)
+        tp_split, tn_split, fp_split, fn_split = score(train_queries, test_queries, classifier_constructor)
         print tp_split, tn_split, fp_split, fn_split
 
         tp += tp_split
@@ -83,10 +86,10 @@ def analyze(tp, tn, fp, fn):
     print 'n', n, 'accuracy', round(float(tp+tn)/n, 3), 'fp', round(float(fp)/n, 3), 'fn', round(float(fn)/n, 3)
 
 
-qs = load_queries(DEFAULT_FILENAME)
+qs = load_queries("files/training_data_1.xlsx")
 print qs[1]
 
-results = xval(qs)
+results = xval(qs, sklearn.naive_bayes.MultinomialNB)
 analyze(*results)
 
 
