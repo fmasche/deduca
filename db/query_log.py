@@ -2,6 +2,8 @@ import sys
 import pymysql
 import datetime
 
+INTERVAL = '36 hour'
+
 def load_pw():
     x = "3219ahn7fg53esartnoC$"
     return "".join(reversed(x[:7] + x[12:]))
@@ -30,7 +32,9 @@ def get_queries():
                 "db_name": "employees"
                 }
 
-    query = "select start_time, user_host, rows_examined, sql_text from mysql.slow_log where user_host NOT LIKE '%rdsadmin%' and start_time >date_sub(UTC_TIMESTAMP(), interval 5 hour) and (lower(sql_text) LIKE 'select%' or lower(sql_text) LIKE 'update%' or lower(sql_text) LIKE 'insert%' or lower(sql_text) LIKE 'delete%')"
+    query = "select start_time, user_host, rows_examined, sql_text from mysql.slow_log where user_host NOT LIKE '%rdsadmin%' and start_time >date_sub(UTC_TIMESTAMP(), interval "
+    query += INTERVAL
+    query += ") and (lower(sql_text) LIKE 'select%' or lower(sql_text) LIKE 'update%' or lower(sql_text) LIKE 'insert%' or lower(sql_text) LIKE 'delete%')"
     cur = dbConnection(dbConfig, query)
     rows = []
     for row in cur:
@@ -44,7 +48,7 @@ def get_queries():
     return rows
 
 
-#if __name__ == "__main__":
-    #for q in get_queries():
-        #print(q)
+if __name__ == "__main__":
+    for q in get_queries():
+        print(q)
     #print(load_pw())

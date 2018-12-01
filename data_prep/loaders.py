@@ -17,7 +17,7 @@ def load_data(filename):
     for i in df.index:
         data["text"] = df['query'][i]
         data["rows_examined"] = df['rows'][i]
-        role = df['role'][i]
+        role = df['role2'][i]
         if (data["text"] == "query"):  # only to ignore the first line, TODO should change this
             continue
         try:
@@ -33,7 +33,7 @@ def load_data(filename):
     for i in df.index:
         data["text"] = df['query'][i]
         data["rows_examined"] = df['rows'][i]
-        role = df['role'][i]
+        role = df['role2'][i]
         if (data["text"] == "query"):  # only to ignore the first line, TODO should change this
             continue
         try:
@@ -74,7 +74,7 @@ def load_training_test_data(filename):
             continue
         try:
             xTest.append([df['query'][i], df['rows'][i]])
-            yTest.append(df['role'][i])
+            yTest.append(df['role2'][i])
         except Exception as error:
             print(error)
             pass            

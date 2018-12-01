@@ -86,7 +86,7 @@ def analyze(tp, tn, fp, fn):
     print 'n', n, 'accuracy', round(float(tp+tn)/n, 3), 'fp', round(float(fp)/n, 3), 'fn', round(float(fn)/n, 3)
 
 
-qs = load_queries("files/training_data_1.xlsx")
+qs = load_queries("files/training_data_3.xlsx")
 print qs[1]
 
 results = xval(qs, sklearn.naive_bayes.MultinomialNB)
