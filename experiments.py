@@ -38,18 +38,19 @@ def predicted_valid(query, predicted_role, ad_method='C'):
 def score(train_queries, test_queries, classifier_constructor):
     ad_method = 'U'
     if ad_method == 'U':
-        train_xs = [getFeaturesFromDBSAFE(query)[0] for query in train_queries if query['role2'] != 'PENT']
+        #train_xs = [getFeaturesFromDBSAFE(query)[0] for query in train_queries if query['role2'] != 'PENT']
+        train_xs = [getFeaturesFromQuery(query, add_BOW=True)[0] for query in train_queries if query['role2'] != 'PENT']
         train_ys = [query['role'] for query in train_queries if query['role2'] != 'PENT']
     else:
-        train_xs = [getFeaturesFromDBSAFE(query)[0] for query in train_queries]
-        #train_xs = [getFeaturesFromQuery(query, add_BOW=False)[0] for query in train_queries]
+        #train_xs = [getFeaturesFromDBSAFE(query)[0] for query in train_queries]
+        train_xs = [getFeaturesFromQuery(query, add_BOW=True)[0] for query in train_queries]
         train_ys = [query['role2'] for query in train_queries]
     
     classifier = classifier_constructor()
     classifier.fit(train_xs, train_ys)
 
-    test_xs = [getFeaturesFromDBSAFE(query)[0] for query in test_queries]
-    #test_xs = [getFeaturesFromQuery(query, add_BOW=False)[0] for query in test_queries]
+    #test_xs = [getFeaturesFromDBSAFE(query)[0] for query in test_queries]
+    test_xs = [getFeaturesFromQuery(query, add_BOW=True)[0] for query in test_queries]
     test_pred_roles = classifier.predict(test_xs)
     tp, tn, fp, fn = 0,0,0,0
     for i in range(len(test_queries)):
@@ -107,20 +108,22 @@ qs = load_queries("files/training_data_3.xlsx")
 # analyze(*results)
 
 
+# constructors = [
+#     sklearn.naive_bayes.MultinomialNB,
+#     sklearn.naive_bayes.GaussianNB,
+#     sklearn.svm.SVC,
+#     sklearn.ensemble.RandomForestClassifier,
+#     sklearn.tree.DecisionTreeClassifier,
+#     sklearn.ensemble.AdaBoostClassifier,
+#     sklearn.ensemble.GradientBoostingClassifier]
 constructors = [
-    sklearn.naive_bayes.MultinomialNB,
-    sklearn.naive_bayes.GaussianNB,
-    sklearn.svm.SVC,
-    sklearn.ensemble.RandomForestClassifier,
-    sklearn.tree.DecisionTreeClassifier,
-    sklearn.ensemble.AdaBoostClassifier,
-    sklearn.ensemble.GradientBoostingClassifier]
-constructors = [
-    sklearn.naive_bayes.MultinomialNB,
+    #sklearn.naive_bayes.MultinomialNB,
     #sklearn.naive_bayes.GaussianNB,
     #sklearn.svm.SVC,
-    sklearn.ensemble.RandomForestClassifier,
-    #sklearn.ensemble.AdaBoostClassifier
+    
+    #sklearn.ensemble.AdaBoostClassifier,
+    #sklearn.ensemble.GradientBoostingClassifier,
+    sklearn.ensemble.RandomForestClassifier
     ]
 for constructor in constructors:
     results = xval(qs, sklearn.naive_bayes.MultinomialNB)

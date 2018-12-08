@@ -36,28 +36,25 @@ def main():
     upload_report(report_text)
 
 def get_queries():
-    """Stub, this will use Nikki's code"""
     queries = query_log.get_queries()
-    print queries[0]
+    #print queries[0]
     return queries
-    # return [{'role': 'DOC', 'user': 'bob', 'rows_examined': 4, 'timestamp': '11-24-18 19:44:57', 'text': 'select * from patient'},
-    #         {'role': 'HR', 'user': 'alice', 'rows_examined': 2, 'timestamp': '11-24-18 19:45:00', 'text': 'select * from billing'}
-    #         ]
     
 def get_features_from_query(query):
-    """Stub, this will use Fatima's preprocessing code"""
     return data_prep.preprocessing.getFeaturesFromQuery(query)
     #return [0.0] * 4
 
 def generate_report_line(query, predicted_role):
-    report = query['timestamp'] + '/' + query['role'] + '/' + predicted_role
+    report = query['timestamp'] 
     if predicted_role == 'PENT':
-        report += " WARNING: Appears malicious: "
+        report += "  WARNING: Appears malicious: "
     elif query['role'] != predicted_role:
-        report += " WARNING: Unexpected role: "
+        report += "  WARNING: Unexpected role:   "
     else:
-        report += " Nominal query:"
+        report += "           Nominal query:     "
+    report += query['role'].rjust(4) + '/' + predicted_role.ljust(4) + '  '
     report += query['text'][:100]
+    report += '\n'
     return report
     
     # if predicted_role == 'PENT':
